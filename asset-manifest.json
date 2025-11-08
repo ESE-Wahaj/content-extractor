@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/content-extractor/static/css/main.2dfa3638.css",
+    "main.js": "/content-extractor/static/js/main.9a175c83.js",
+    "index.html": "/content-extractor/index.html",
+    "main.2dfa3638.css.map": "/content-extractor/static/css/main.2dfa3638.css.map",
+    "main.9a175c83.js.map": "/content-extractor/static/js/main.9a175c83.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2dfa3638.css",
+    "static/js/main.9a175c83.js"
+  ]
+}

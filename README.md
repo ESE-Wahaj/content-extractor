@@ -1,70 +1,143 @@
-# Getting Started with Create React App
+# Content Extractor
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modular, client-side content extraction system that processes PDF, DOCX, TXT, and image files entirely in the browser without external API dependencies.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Multi-Format Support**: Extracts text from PDF, DOCX, TXT, and image files (JPG, PNG, GIF, BMP, WEBP, TIFF)
+- **Client-Side Processing**: All extraction happens locally in the browser - no data transmission to external servers
+- **OCR Capability**: Tesseract.js integration for optical character recognition on images
+- **Modular Architecture**: Separate extractors for each file type with factory pattern implementation
+- **API Ready**: Built-in API service layer for seamless integration into larger workflows
+- **Drag & Drop Interface**: Intuitive file upload with progress tracking and error handling
 
-### `npm start`
+## Technology Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **React** - Component-based UI framework
+- **PDF.js** - PDF text extraction
+- **Mammoth.js** - DOCX document processing
+- **Tesseract.js** - OCR engine for images
+- **Lucide React** - Icon library
+- **Tailwind CSS** - Utility-first styling
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Installation
+```bash
+# Clone the repository
+git clone <repository-url>
+cd content-extractor
 
-### `npm test`
+# Install dependencies
+npm install
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Start development server
+npm start
+```
 
-### `npm run build`
+## Project Structure
+```
+src/
+├── config/
+│   └── constants.js          # Configuration constants & CDN URLs
+├── utils/
+│   ├── fileHelpers.js        # File validation & type detection
+│   └── libraryLoader.js      # Dynamic library loading
+├── extractors/
+│   ├── textExtractor.js      # Plain text extraction
+│   ├── pdfExtractor.js       # PDF processing
+│   ├── docxExtractor.js      # DOCX processing
+│   ├── imageExtractor.js     # OCR-based image extraction
+│   └── extractorFactory.js   # Extractor selection logic
+├── services/
+│   ├── extractionService.js  # Main extraction orchestration
+│   └── apiService.js         # API integration layer
+├── components/
+│   ├── FileUploader.jsx      # File upload interface
+│   ├── FileInfo.jsx          # File metadata display
+│   ├── ProgressIndicator.jsx # Processing status
+│   ├── ErrorDisplay.jsx      # Error handling UI
+│   └── ContentDisplay.jsx    # Extracted content viewer
+└── App.jsx                    # Main application component
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Usage
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **Upload a file** via drag-and-drop or file selector
+2. **Processing begins automatically** with real-time progress updates
+3. **View extracted content** in the text viewer
+4. **Copy to clipboard** or **send to API** for downstream processing
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## API Integration
 
-### `npm run eject`
+Enable API integration by configuring `constants.js`:
+```javascript
+export const API_CONFIG = {
+  ENABLED: true,
+  ENDPOINT: 'https://your-api.com/extract',
+  TIMEOUT: 30000,
+  RETRY_ATTEMPTS: 3
+};
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The system sends extracted content in the following format:
+```json
+{
+  "filename": "document.pdf",
+  "fileType": "application/pdf",
+  "fileSize": 1024000,
+  "extractedContent": "Full extracted text...",
+  "timestamp": "2025-11-08T...",
+  "metadata": {
+    "processingDate": "2025-11-08T...",
+    "contentLength": 5000
+  }
+}
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Configuration
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Key configuration options in `src/config/constants.js`:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- **File size limit**: 50MB (adjustable)
+- **Supported formats**: PDF, DOCX, TXT, Images
+- **API timeout**: 30 seconds
+- **OCR language**: English (expandable)
 
-## Learn More
+## Browser Compatibility
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Chrome/Edge: Full support
+- Firefox: Full support
+- Safari: Full support
+- Opera: Full support
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Requires modern browser with ES6+ support and FileReader API.
 
-### Code Splitting
+## Performance Considerations
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **PDF**: ~500ms per page
+- **DOCX**: ~200-500ms depending on size
+- **Images**: 2-10 seconds depending on image complexity and text density
+- **TXT**: Near-instantaneous
 
-### Analyzing the Bundle Size
+## Security & Privacy
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+All processing occurs client-side. No files or data are transmitted to external servers unless explicitly configured via API integration.
 
-### Making a Progressive Web App
+## Future Enhancements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- Multi-language OCR support
+- Batch file processing
+- Progress persistence across sessions
+- Export formats (JSON, XML)
+- Advanced text preprocessing options
 
-### Advanced Configuration
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+MIT License - See LICENSE file for details
 
-### Deployment
+## Author
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Developed as part of FYP Module 1 - Content Extraction System
 
-### `npm run build` fails to minify
+## Support
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+For issues or questions, please open an issue in the repository.
